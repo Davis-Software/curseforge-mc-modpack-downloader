@@ -3,7 +3,7 @@ from ui.styles import Colors
 from ui.window import Window
 from ui.widgets import LabelFrame, Button, FileInput
 
-from downloader.curseforge_downloader import DownloadManager
+from downloader.curseforge_downloader import DownloadManager, ModPack
 
 
 class MainWindow(Window):
@@ -20,7 +20,10 @@ class MainWindow(Window):
 
 
 if __name__ == "__main__":
-    with DownloadManager("zipfile") as d_mgr:
+    mod_pack = ModPack("https://www.curseforge.com/minecraft/modpacks/modpack-slug")
+    file = mod_pack.get_latest_file()
+
+    with DownloadManager(mod_pack.download_file(file)) as d_mgr:
         d_mgr.register_listener("all", print)
         d_mgr.download("target")
 
